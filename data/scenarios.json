@@ -1,0 +1,28 @@
+[
+  {
+    "nom": "Scenario Base",
+    "module": "costing",
+    "cout_fixe": 5000,
+    "cout_variable": 45,
+    "prix_vente": 125,
+    "quantite": 1200,
+    "cout_total": 59000,
+    "chiffre_affaires": 150000,
+    "benefice": 91000,
+    "seuil_rentabilite": 625,
+    "notes": "Scenario de reference"
+  },
+  {
+    "nom": "Scenario Croissance",
+    "module": "analysis",
+    "cout_fixe": 6200,
+    "cout_variable": 48,
+    "prix_vente": 130,
+    "quantite": 1500,
+    "cout_total": 78200,
+    "chiffre_affaires": 195000,
+    "benefice": 116800,
+    "seuil_rentabilite": 756,
+    "notes": "Hypothese croissance annuelle"
+  }
+]

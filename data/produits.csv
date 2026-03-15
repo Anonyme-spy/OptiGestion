@@ -1,0 +1,7 @@
+produit_id,nom_produit,categorie,unite,prix_vente_unitaire
+P001,Pompe Hydraulique,Equipement,morceau,320.0
+P002,Valve Industrielle,Composant,morceau,95.0
+P003,Reservoir 200L,Structure,morceau,210.0
+P004,Tuyau Renforce 10m,Consommable,lot,68.0
+P005,Kit Maintenance,Service,kit,145.0
+P006,Module Capteur IoT,Electronique,morceau,180.0
