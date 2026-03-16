@@ -44,7 +44,7 @@ class CostingModule:
         return self.cout_total() / self.q
         
     def to_dict(self):
-        dict = {
+        resultats = {
             "cout fixe": self.cf,
             "cout variable": self.cv,
             "prix de vente": self.pv,
@@ -58,4 +58,4 @@ class CostingModule:
             "cout de revient": self.cout_de_revient_unitaire(),
         }
         
-        return dict
+        return resultats
