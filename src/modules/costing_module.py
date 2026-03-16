@@ -16,14 +16,14 @@ class CostingModule:
         self.est_valide()
         
     def est_valide(self):
-        if self.cf <= 0:
-            raise ValueError("Erreur: le cout fixe ne doit pas etre inferieur ou egale 0!")
+        if self.cf < 0:
+            raise ValueError("Le cout fixe ne doit pas negatif!")
+        elif self.pv <= 0:
+           raise ValueError("Le prix de vente ne doit etre positif!")
         elif self.q == 0:
-            raise ValueError("Erreur: la quantite ne doit pas etre 0.")
+            raise ValueError("La quantite ne doit pas etre 0.")
         elif self.pv < self.cv:
-            warnings.warn("Le prix de vente ne doit pas etre inferieur au cout de revient")
-            
-        return self
+            warnings.warn("Le prix de vente ne doit pas etre inferieur au cout vaiable")
         
     def cout_total(self):
         return self.cf + (self.cv * self.q)
