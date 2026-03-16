@@ -1,18 +1,20 @@
 import sys
 
-from PyQt6.QtWidgets import QMainWindow, QGridLayout,QVBoxLayout,QWidget
+from PyQt6.QtWidgets import QMainWindow, QGridLayout,QVBoxLayout,QWidget, QApplication
 
-class MyWindow(QMainWindow):
+class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.initUI()
-        def initUI(self):
-            grid = QGridLayout()
-            self.setCentralWidget(grid)
-            self.setWindowTitle("Hello World")
-            self.setGeometry(300, 300, 250, 150)
-            self.show()
+        self.setWindowTitle("OptiGestion")
+        self.setGeometry(100, 100, 800, 600)
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
+        layout = QVBoxLayout()
+        central_widget.setLayout(layout)
 
-app = MyWindow
 
-app.exec()
+def execute_app():
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    window.show()
+    sys.exit(app.exec())
