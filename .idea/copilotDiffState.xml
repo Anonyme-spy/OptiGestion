@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CopilotDiffPersistence">
+    <option name="pendingDiffs">
+      <map>
+        <entry key="$PROJECT_DIR$/pyproject.toml">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/pyproject.toml" />
+              <option name="originalContent" value="[project]&#10;name = &quot;optigestion&quot;&#10;version = &quot;0.1.0&quot;&#10;description = &quot;Add your description here&quot;&#10;requires-python = &quot;&gt;=3.13&quot;&#10;dependencies = [&#10;    &quot;pandas&gt;=3.0.0&quot;,&#10;    &quot;pyqt6&gt;=6.10.2&quot;,&#10;    &quot;ruff&gt;=0.15.1&quot;,&#10;]&#10;" />
+              <option name="updatedContent" value="[project]&#10;name = &quot;optigestion&quot;&#10;version = &quot;0.1.0&quot;&#10;description = &quot;Add your description here&quot;&#10;requires-python = &quot;&gt;=3.13&quot;&#10;dependencies = [&#10;    &quot;pandas&gt;=3.0.0&quot;,&#10;    &quot;pyqt6&gt;=6.10.2&quot;,&#10;    &quot;minizinc&gt;=0.12.0&quot;,&#10;    &quot;matplotlib&gt;=3.10.1&quot;,&#10;]&#10;dev-dependencies = [&#10;    &quot;ruff==0.15.1&quot;,&#10;    &quot;pytest&gt;=8.0.0&quot;,&#10;]" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
