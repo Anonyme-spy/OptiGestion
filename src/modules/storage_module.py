@@ -15,7 +15,7 @@ _DB_PATH: Path | None = None
 
 _TABLE_NAME = "scenarios"
 
-# Ordered fields used when inserting data.
+# Lister les champs de scénario pour garantir une correspondance cohérente entre le code et la base de données, et éviter les erreurs de frappe dans les requêtes SQL
 _SCENARIO_FIELDS = [
     "nom",
     "module",
@@ -30,24 +30,8 @@ _SCENARIO_FIELDS = [
     "notes",
 ]
 
-
+# Fonction pour initialiser la base de données SQLite et créer la table des scénarios si elle n'existe pas, elle vérifie que le chemin est valide et gère les exceptions liées à l'initialisation de la base de données
 def init_database(db_path: str) -> None:
-    """Initialize the SQLite database and ensure table creation.
-
-    Parameters
-    ----------
-    db_path:
-        Path to the SQLite database file.
-
-    Raises
-    ------
-    ValueError
-        If ``db_path`` is empty.
-    OSError
-        If the parent directory cannot be created.
-    sqlite3.Error
-        If database initialization fails.
-    """
     global _DB_PATH
 
     if not db_path or not db_path.strip():
@@ -80,7 +64,7 @@ def init_database(db_path: str) -> None:
 
     _DB_PATH = path
 
-
+# Fonction pour obtenir une connexion SQLite à la base de données initialisée, elle vérifie que la base de données a été initialisée avant de tenter de se connecter et gère les exceptions liées à la connexion à la base de données
 def _get_connection() -> sqlite3.Connection:
     """Return a SQLite connection using the initialized database path."""
     if _DB_PATH is None:
@@ -92,30 +76,9 @@ def _get_connection() -> sqlite3.Connection:
     connection.row_factory = sqlite3.Row
     return connection
 
-
+# Fonction pour valider qu'un chemin de fichier existe et est un fichier, elle gère les exceptions liées à la validation du chemin
 def save_scenario(data: dict[str, Any]) -> int:
-    """Persist a scenario in the database.
 
-    Parameters
-    ----------
-    data:
-        Scenario payload. Supported keys are the scenario fields except ``id``
-        and ``created_at``.
-
-    Returns
-    -------
-    int
-        The inserted scenario ID.
-
-    Raises
-    ------
-    RuntimeError
-        If the database has not been initialized.
-    TypeError
-        If ``data`` is not a dictionary.
-    sqlite3.Error
-        If the insert operation fails.
-    """
     if not isinstance(data, dict):
         raise TypeError("data must be a dictionary.")
 
@@ -132,22 +95,9 @@ def save_scenario(data: dict[str, Any]) -> int:
         connection.commit()
         return int(cursor.lastrowid)
 
-
+# Fonction pour charger tous les scénarios de la base de données, elle gère les exceptions liées à la lecture de la base de données et retourne une liste de dictionnaires représentant les scénarios
 def load_scenarios() -> list[dict[str, Any]]:
-    """Load all scenarios ordered by newest first.
 
-    Returns
-    -------
-    list[dict[str, Any]]
-        A list of scenario records as dictionaries.
-
-    Raises
-    ------
-    RuntimeError
-        If the database has not been initialized.
-    sqlite3.Error
-        If the query fails.
-    """
     with _get_connection() as connection:
         cursor = connection.execute(
             f"SELECT * FROM {_TABLE_NAME} ORDER BY created_at DESC, id DESC"
@@ -156,24 +106,9 @@ def load_scenarios() -> list[dict[str, Any]]:
 
     return [dict(row) for row in rows]
 
-
+# Fonction pour supprimer un scénario de la base de données en fonction de son ID, elle vérifie que l'ID est valide et gère les exceptions liées à la suppression du scénario
 def delete_scenario(scenario_id: int) -> None:
-    """Delete a scenario by its identifier.
 
-    Parameters
-    ----------
-    scenario_id:
-        ID of the scenario to remove.
-
-    Raises
-    ------
-    RuntimeError
-        If the database has not been initialized.
-    ValueError
-        If ``scenario_id`` is not a positive integer.
-    sqlite3.Error
-        If the delete operation fails.
-    """
     if not isinstance(scenario_id, int) or scenario_id <= 0:
         raise ValueError("scenario_id must be a positive integer.")
 

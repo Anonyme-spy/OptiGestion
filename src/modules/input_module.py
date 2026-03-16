@@ -13,29 +13,8 @@ from typing import Any
 
 import pandas as pd
 
-
+#fonction pour verifier que le chemin du fichier est valide et qu'il existe, sinon elle lève une exception appropriée
 def _validate_path(file_path: str) -> Path:
-    """Validate and normalize a file path.
-
-    Parameters
-    ----------
-    file_path:
-        Path to the input file.
-
-    Returns
-    -------
-    pathlib.Path
-        A normalized path object.
-
-    Raises
-    ------
-    ValueError
-        If ``file_path`` is empty.
-    FileNotFoundError
-        If the path does not exist.
-    IsADirectoryError
-        If the path points to a directory.
-    """
     if not file_path or not file_path.strip():
         raise ValueError("file_path must be a non-empty string.")
 
@@ -48,31 +27,8 @@ def _validate_path(file_path: str) -> Path:
 
     return path
 
-
+#fonction pour charger un fichier csv dans un dataframe pandas, elle utilise la fonction de validation de chemin et gère les exceptions liées à la lecture du fichier
 def load_csv(file_path: str) -> pd.DataFrame:
-    """Load data from a CSV file into a pandas DataFrame.
-
-    Parameters
-    ----------
-    file_path:
-        Path to a ``.csv`` file.
-
-    Returns
-    -------
-    pandas.DataFrame
-        Data loaded from the CSV file.
-
-    Raises
-    ------
-    ValueError
-        If the file extension is invalid or the CSV content is malformed.
-    FileNotFoundError
-        If the file does not exist.
-    IsADirectoryError
-        If the path points to a directory.
-    PermissionError
-        If the file cannot be accessed.
-    """
     path = _validate_path(file_path)
 
     if path.suffix.lower() != ".csv":
@@ -87,31 +43,8 @@ def load_csv(file_path: str) -> pd.DataFrame:
     except OSError as exc:
         raise OSError(f"Unable to read CSV file: {path}") from exc
 
-
+#fonction pour charger un fichier json dans un dataframe pandas, elle utilise la fonction de validation de chemin et gère les exceptions liées à la lecture du fichier
 def load_json(file_path: str) -> pd.DataFrame:
-    """Load data from a JSON file into a pandas DataFrame.
-
-    Parameters
-    ----------
-    file_path:
-        Path to a ``.json`` file.
-
-    Returns
-    -------
-    pandas.DataFrame
-        Data loaded from the JSON file.
-
-    Raises
-    ------
-    ValueError
-        If the file extension is invalid or the JSON content is malformed.
-    FileNotFoundError
-        If the file does not exist.
-    IsADirectoryError
-        If the path points to a directory.
-    PermissionError
-        If the file cannot be accessed.
-    """
     path = _validate_path(file_path)
 
     if path.suffix.lower() != ".json":
@@ -126,30 +59,8 @@ def load_json(file_path: str) -> pd.DataFrame:
     except OSError as exc:
         raise OSError(f"Unable to read JSON file: {path}") from exc
 
-
+#fonction pour exporter un dictionnaire de données dans un fichier csv, elle vérifie que les données sont valides et gère les exceptions liées à l'écriture du fichier
 def export_to_csv(data: dict[str, Any], file_path: str) -> None:
-    """Export a scenario dictionary to a CSV file with headers.
-
-    Parameters
-    ----------
-    data:
-        Scenario payload as a dictionary. Keys become CSV headers.
-    file_path:
-        Destination path for the ``.csv`` file.
-
-    Raises
-    ------
-    TypeError
-        If ``data`` is not a dictionary.
-    ValueError
-        If ``data`` is empty, ``file_path`` is empty, or extension is invalid.
-    IsADirectoryError
-        If ``file_path`` points to a directory.
-    PermissionError
-        If the file cannot be written.
-    OSError
-        If an I/O error occurs while writing the file.
-    """
     if not isinstance(data, dict):
         raise TypeError("data must be a dictionary.")
     if not data:
