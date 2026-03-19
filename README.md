@@ -71,7 +71,8 @@ uv sync
 ## ▶️ Lancement
 
 ```bash
-uv run python -m optigestion.main
+uv run python -m main.py
+
 ```
 
 ---
