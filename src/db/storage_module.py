@@ -53,6 +53,17 @@ class StorageModule:
                     created_at  TEXT    DEFAULT (datetime('now', 'localtime'))
                 )
             """)
+            conn.execute("""
+                CREATE TABLE IF NOT EXISTS entreprise_account (
+                    id          INTEGER PRIMARY KEY CHECK (id = 1),
+                    nom         TEXT    NOT NULL,
+                    secteur      TEXT    NOT NULL,
+                    email TEXT NOT NULL,
+                    password TEXT NOT NULL,
+                    devise TEXT NOT NULL,
+                    created_at  TEXT    DEFAULT (datetime('now', 'localtime'))
+                )
+            """)
             conn.commit()
 
     # ── SAUVEGARDE ───────────────────────────────────────────────────────────
@@ -101,6 +112,29 @@ class StorageModule:
             })
             conn.commit()
             return cursor.lastrowid
+
+    # --- check de comptes entreprise ---
+    def creer_compte_entreprise(self, nom: str, secteur: str, email: str, password: str, devise: str) -> bool:
+        """Crée un compte entreprise. Retourne True si créé, False si un compte existe déjà."""
+        with self._connect() as conn:
+            existing = conn.execute("SELECT 1 FROM entreprise_account WHERE id = 1").fetchone()
+            if existing:
+                return False  # Un compte existe déjà
+            conn.execute("""
+                INSERT INTO entreprise_account (id, nom, secteur, email, password, devise)
+                VALUES (1, ?, ?, ?, ?, ?)
+            """, (nom, secteur, email, password, devise))
+            conn.commit()
+            return True
+
+    # connect entreprise
+    def connecter_entreprise(self, email: str, password: str) -> bool:
+        """Vérifie les identifiants de connexion. Retourne True si valides."""
+        with self._connect() as conn:
+            row = conn.execute("SELECT password FROM entreprise_account WHERE email = ?", (email,)).fetchone()
+            if row and row["password"] == password:
+                return True
+            return False
 
     # ── CHARGEMENT ───────────────────────────────────────────────────────────
     def charger(self, scenario_id: int) -> dict:
