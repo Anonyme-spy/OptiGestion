@@ -11,8 +11,8 @@ class AnalysisModule:
         self.costing_module = costing_module
         
     def seuil_rentabilite(self):
-        if self.costing_module.pv == self.costing_module.cv:
-            raise ValueError("Marge nulle: pv == cv, seuil infini.")
+        if self.costing_module.pv <= self.costing_module.cv:
+            raise ValueError("Marge non positive: pv <= cv, seuil de rentabilite indefini.")
         return self.costing_module.cf / (self.costing_module.pv - self.costing_module.cv)
         
     def point_mort_ca(self):
