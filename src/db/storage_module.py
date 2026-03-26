@@ -64,6 +64,136 @@ class StorageModule:
                     created_at  TEXT    DEFAULT (datetime('now', 'localtime'))
                 )
             """)
+            # Inside _init_db method, after the existing tables, add:
+
+            conn.execute("""
+                         CREATE TABLE IF NOT EXISTS products
+                         (
+                             id
+                             INTEGER
+                             PRIMARY
+                             KEY
+                             AUTOINCREMENT,
+                             product_id
+                             TEXT
+                             UNIQUE
+                             NOT
+                             NULL,
+                             name
+                             TEXT
+                             NOT
+                             NULL,
+                             category
+                             TEXT,
+                             cost_price
+                             REAL
+                             NOT
+                             NULL,
+                             selling_price
+                             REAL
+                             NOT
+                             NULL
+                         )
+                         """)
+
+            conn.execute("""
+                         CREATE TABLE IF NOT EXISTS costs
+                         (
+                             id
+                             INTEGER
+                             PRIMARY
+                             KEY
+                             AUTOINCREMENT,
+                             product_id
+                             TEXT
+                             NOT
+                             NULL,
+                             fixed_costs
+                             REAL
+                             DEFAULT
+                             0,
+                             variable_costs
+                             REAL
+                             DEFAULT
+                             0,
+                             labor_costs
+                             REAL
+                             DEFAULT
+                             0,
+                             raw_materials
+                             REAL
+                             DEFAULT
+                             0,
+                             FOREIGN
+                             KEY
+                         (
+                             product_id
+                         ) REFERENCES products
+                         (
+                             product_id
+                         )
+                             )
+                         """)
+
+            conn.execute("""
+                         CREATE TABLE IF NOT EXISTS volumes
+                         (
+                             id
+                             INTEGER
+                             PRIMARY
+                             KEY
+                             AUTOINCREMENT,
+                             product_id
+                             TEXT
+                             NOT
+                             NULL,
+                             period
+                             TEXT
+                             NOT
+                             NULL,
+                             produced
+                             INTEGER
+                             DEFAULT
+                             0,
+                             sold
+                             INTEGER
+                             DEFAULT
+                             0,
+                             FOREIGN
+                             KEY
+                         (
+                             product_id
+                         ) REFERENCES products
+                         (
+                             product_id
+                         )
+                             )
+                         """)
+
+            conn.execute("""
+                         CREATE TABLE IF NOT EXISTS scenario_templates
+                         (
+                             id
+                             INTEGER
+                             PRIMARY
+                             KEY
+                             AUTOINCREMENT,
+                             name
+                             TEXT
+                             NOT
+                             NULL,
+                             sales_change
+                             REAL
+                             DEFAULT
+                             0,
+                             cost_change
+                             REAL
+                             DEFAULT
+                             0,
+                             description
+                             TEXT
+                         )
+                         """)
             conn.commit()
 
     # ── SAUVEGARDE ───────────────────────────────────────────────────────────

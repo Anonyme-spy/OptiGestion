@@ -1,0 +1,20 @@
+[
+  {
+    "nom": "Scénario optimiste",
+    "augmentation_ventes": 20,
+    "reduction_couts": 10,
+    "description": "Hausse des ventes de 20% et baisse des coûts de 10%"
+  },
+  {
+    "nom": "Scénario pessimiste",
+    "augmentation_ventes": -10,
+    "reduction_couts": -5,
+    "description": "Baisse des ventes de 10% et hausse des coûts de 5%"
+  },
+  {
+    "nom": "Scénario réaliste",
+    "augmentation_ventes": 5,
+    "reduction_couts": 2,
+    "description": "Croissance modérée des ventes et légère baisse des coûts"
+  }
+]

@@ -4,7 +4,7 @@
 # cm: costing module
 # sr: seuil de rentabilite
 
-from costing_module import CostingModule
+from src.modules.costing_module import CostingModule
 
 class AnalysisModule:
     def __init__(self, costing_module):

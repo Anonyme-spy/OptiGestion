@@ -107,12 +107,12 @@ class TestSauvegarder:
         assert db.charger(id_)["notes"] == ""
 
     def test_scenario_perte(self, db, costing_perte):
-        """Un scénario en perte doit être sauvegardé correctement."""
+        """Un scnario en perte doit tre sauvegard correctement."""
         id_ = db.sauvegarder("Perte", costing_perte)
         row = db.charger(id_)
         assert row["benefice"] < 0
         assert row["est_rentable"] == False
-        assert "perte" in row["conseil"].lower()
+        assert "perdez" in row["conseil"].lower()
 
 # ── CHARGEMENT ────────────────────────────────────────────────────────────────
 

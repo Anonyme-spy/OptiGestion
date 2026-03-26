@@ -1,0 +1,6 @@
+id_produit,nom,categorie,cout_revient,prix_vente
+P001,Produit A,Électronique,50.00,89.99
+P002,Produit B,Électronique,120.00,199.99
+P003,Produit C,Alimentaire,2.50,4.99
+P004,Produit D,Alimentaire,8.00,12.50
+P005,Produit E,Textile,15.00,29.99

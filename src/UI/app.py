@@ -1,20 +1,35 @@
+# src/UI/app.py
 import sys
-
-from PyQt6.QtWidgets import QMainWindow, QGridLayout,QVBoxLayout,QWidget, QApplication
-
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.setWindowTitle("OptiGestion")
-        self.setGeometry(100, 100, 800, 600)
-        central_widget = QWidget()
-        self.setCentralWidget(central_widget)
-        layout = QVBoxLayout()
-        central_widget.setLayout(layout)
+from PyQt6.QtWidgets import QApplication
+from src.UI.login_window import LoginWindow
+from src.UI.main_window import MainWindow
 
 
 def execute_app():
+    # High DPI scaling for modern displays
+    import os
+    os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
+
     app = QApplication(sys.argv)
-    window = MainWindow()
-    window.show()
+    app.setStyle("Fusion")
+
+    # Global Font Fix (optional, depending on OS)
+    font = app.font()
+    font.setPointSize(10)
+    app.setFont(font)
+
+    # State container to hold the windows
+    state = {"login": None, "main": None}
+
+    def on_login_success(company_data):
+        # Close login, open main in maximized mode
+        state["main"] = MainWindow(company_data)
+        state["main"].showFullScreen()
+        if state["login"]:
+            state["login"].close()
+
+    # Launch Login in maximized mode
+    state["login"] = LoginWindow(on_login_success)
+    state["login"].showFullScreen()
+
     sys.exit(app.exec())
