@@ -1,6 +1,6 @@
 """
 Créé par : N°01 - RAKOTONANAHARY Anjarahoahy
-Version : 3.1 - Intégration DataManager + auto-import initial
+Version : 3.1 - Intégration DataManager + auto-import initial + chemin dynamique
 """
 
 import pandas as pd
@@ -8,6 +8,19 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 from typing import Dict, Optional
+import sys
+
+def get_data_folder():
+    """Return the absolute path to the Data folder (in bundle or in project root)."""
+    if getattr(sys, 'frozen', False):
+        # Running in a PyInstaller bundle
+        base_path = sys._MEIPASS
+    else:
+        base_path = os.path.dirname(os.path.abspath(__file__))
+        # Go up to project root if needed
+        while not os.path.exists(os.path.join(base_path, 'Data')) and os.path.dirname(base_path) != base_path:
+            base_path = os.path.dirname(base_path)
+    return os.path.join(base_path, 'Data')
 
 # -------------------------------------------------------------------
 # Import DataManager if available, otherwise fallback to file loading
@@ -81,8 +94,9 @@ def charger_donnees() -> Dict[str, Optional[pd.DataFrame]]:
             conn.close()
 
             if count == 0:
-                print("📦 Tables vides. Chargement initial depuis le dossier Data/ ...")
-                dm.load_initial_data("Data")   # Cette méthode importe les fichiers CSV/JSON
+                data_folder = get_data_folder()
+                print(f"📦 Tables vides. Chargement initial depuis {data_folder} ...")
+                dm.load_initial_data(data_folder)   # Cette méthode importe les fichiers CSV/JSON
 
             # Récupérer les tables depuis la base
             produits_db = dm.get_table_as_df('products')
@@ -158,7 +172,7 @@ def charger_donnees() -> Dict[str, Optional[pd.DataFrame]]:
 
 def _charger_depuis_fichiers() -> Dict[str, Optional[pd.DataFrame]]:
     """Charge les données directement depuis les fichiers CSV/JSON (fallback)."""
-    chemin_base = "Data/"
+    data_folder = get_data_folder()
     fichiers = {
         'produits': 'produits.csv',
         'couts': 'couts.csv',
@@ -166,10 +180,10 @@ def _charger_depuis_fichiers() -> Dict[str, Optional[pd.DataFrame]]:
         'scenarios': 'scenarios.json'
     }
     donnees = {}
-    print("📂 CHARGEMENT DES FICHIERS...")
+    print(f"📂 CHARGEMENT DES FICHIERS DEPUIS {data_folder}...")
     print("-" * 40)
     for nom, fichier in fichiers.items():
-        chemin_complet = os.path.join(chemin_base, fichier)
+        chemin_complet = os.path.join(data_folder, fichier)
         try:
             if fichier.endswith('.csv'):
                 donnees[nom] = pd.read_csv(chemin_complet)

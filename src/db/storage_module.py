@@ -7,7 +7,17 @@ import os
 from src.modules.costing_module import CostingModule
 from src.modules.analysis_module import AnalysisModule
 
-DB_PATH = os.path.join(os.path.dirname(__file__), "optigestion.db")
+def get_data_dir():
+    """Return a writable directory for application data."""
+    if os.name == 'nt':  # Windows
+        base = os.environ.get('APPDATA', os.path.expanduser('~'))
+    else:  # macOS/Linux
+        base = os.path.expanduser('~')
+    data_dir = os.path.join(base, '.optigestion')
+    os.makedirs(data_dir, exist_ok=True)
+    return data_dir
+
+DB_PATH = os.path.join(get_data_dir(), "optigestion.db")
 
 
 class StorageModule:
@@ -17,7 +27,7 @@ class StorageModule:
 
     # ── CONNEXION ────────────────────────────────────────────────────────────
     def _connect(self):
-        """Retourne une connexion SQLite avec Row factory pour accès par nom de colonne."""
+        os.makedirs(os.path.dirname(self.db_path), exist_ok=True)
         conn = sqlite3.connect(self.db_path)
         conn.row_factory = sqlite3.Row
         return conn
