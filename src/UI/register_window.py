@@ -122,6 +122,8 @@ class RegisterWindow(QWidget):
         footer.setStyleSheet("background:#161b22; border-top:1px solid #333; padding:12px; font-size:13px; color:#888;")
         footer.setAlignment(Qt.AlignmentFlag.AlignCenter)
         main_layout.addWidget(footer)
+        
+        self.showMaximized()
 
     def add_field(self, label_text, widget, layout):
         lbl = QLabel(label_text)
@@ -161,4 +163,4 @@ class RegisterWindow(QWidget):
         self.close()
         from src.UI.login_window import LoginWindow
         self.login_win = LoginWindow(self.on_success)
-        self.login_win.show()
+        self.login_win.showMaximized()
