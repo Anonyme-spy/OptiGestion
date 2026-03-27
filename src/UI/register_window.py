@@ -102,8 +102,8 @@ class RegisterWindow(QWidget):
         btn = QPushButton("Créer un compte")
         btn.setStyleSheet("""
             QPushButton {
-                padding:12px 20px; border:none; border-radius:6px;
-                font-weight:600; background:#a3e635; color:#111; margin:10px 0;
+                border:none; border-radius:6px;
+                font-weight:600; background:#a3e635; color:#111; margin:10px 0; height:30px;
             }
             QPushButton:hover { background:#84cc16; }
         """)
